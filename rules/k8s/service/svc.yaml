@@ -1,0 +1,8 @@
+rules:
+  - id: svc-001
+    name: "No LoadBalancer"
+    description: "Disallow public LoadBalancers without approval."
+    target: "Service"
+    field: "spec.type"
+    expected: "ClusterIP"
+    severity: "warn"

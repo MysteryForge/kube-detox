@@ -1,0 +1,8 @@
+rules:
+  - id: rbac-002
+    name: "Disallow ClusterAdmin"
+    description: "Avoid binding to cluster-admin role."
+    target: "ClusterRoleBinding"
+    field: "roleRef.name"
+    expected_regex: "^(?!cluster-admin).*$"
+    severity: "block"

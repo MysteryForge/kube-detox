@@ -1,0 +1,16 @@
+rules:
+  - id: os-001
+    name: "Disallow Host Networking"
+    description: "OpenShift requires pods to use SDN, not host network."
+    target: "Deployment"
+    field: "spec.template.spec.hostNetwork"
+    expected: false
+    severity: "block"
+
+  - id: os-002
+    name: "Disallow HostPID"
+    description: "HostPID access forbidden."
+    target: "Deployment"
+    field: "spec.template.spec.hostPID"
+    expected: false
+    severity: "block"

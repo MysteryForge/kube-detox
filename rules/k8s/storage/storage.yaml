@@ -1,0 +1,8 @@
+rules:
+  - id: pvc-001
+    name: "Storage Class Required"
+    description: "PersistentVolumeClaims must define a storageClassName."
+    target: "PersistentVolumeClaim"
+    field: "spec.storageClassName"
+    expected: "not_null"
+    severity: "warn"

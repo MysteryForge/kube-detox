@@ -1,0 +1,22 @@
+rules:
+  - id: dep-001
+    name: "Non-Root User"
+    description: "Containers must run as non-root users."
+    target: "Deployment"
+    field: "spec.template.spec.securityContext.runAsNonRoot"
+    expected: true
+    severity: "block"
+  - id: dep-002
+    name: "Rolling Update"
+    description: "Use RollingUpdate strategy."
+    target: "Deployment"
+    field: "spec.strategy.type"
+    expected: "RollingUpdate"
+    severity: "block"
+  - id: dep-003
+    name: "Replicas"
+    description: "At least 2 replicas for high availability."
+    target: "Deployment"
+    field: "spec.replicas"
+    expected: 2
+    severity: "warn"

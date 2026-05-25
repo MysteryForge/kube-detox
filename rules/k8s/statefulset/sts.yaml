@@ -1,0 +1,16 @@
+rules:
+  - id: sts-001
+    name: "StatefulSet Service Name"
+    description: "StatefulSets must have a serviceName defined."
+    target: "StatefulSet"
+    field: "spec.serviceName"
+    expected: "not_null"
+    severity: "block"
+
+  - id: sts-002
+    name: "Pod Management Policy"
+    description: "Use OrderedReady for predictable scaling."
+    target: "StatefulSet"
+    field: "spec.podManagementPolicy"
+    expected: "OrderedReady"
+    severity: "warn"

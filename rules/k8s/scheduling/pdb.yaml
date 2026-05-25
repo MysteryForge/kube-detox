@@ -1,0 +1,8 @@
+rules:
+  - id: pdb-001
+    name: "PDB Min Available"
+    description: "PodDisruptionBudget must specify minAvailable or maxUnavailable."
+    target: "PodDisruptionBudget"
+    field: "spec.minAvailable"
+    expected: "exists"
+    severity: "warn"

@@ -1,0 +1,16 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: non-compliant-app
+spec:
+  template:
+    spec:
+      securityContext:
+        runAsNonRoot: false
+      containers:
+      - name: app
+        image: my-app:latest
+        securityContext:
+          readOnlyRootFilesystem: false
+---
+# Missing NetworkPolicy

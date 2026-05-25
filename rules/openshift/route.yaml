@@ -1,0 +1,8 @@
+rules:
+  - id: os-route-001
+    name: "Route TLS Required"
+    description: "OpenShift routes should enforce TLS."
+    target: "Route"
+    field: "spec.tls"
+    expected: "exists"
+    severity: "block"

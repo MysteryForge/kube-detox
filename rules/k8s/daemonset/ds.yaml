@@ -1,0 +1,8 @@
+rules:
+  - id: ds-001
+    name: "Rolling Update Strategy"
+    description: "DaemonSets should use RollingUpdate."
+    target: "DaemonSet"
+    field: "spec.updateStrategy.type"
+    expected: "RollingUpdate"
+    severity: "block"

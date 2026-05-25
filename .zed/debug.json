@@ -1,0 +1,40 @@
+// Project-local debug tasks
+//
+// For more documentation on how to configure debug tasks,
+// see: https://zed.dev/docs/debugger
+[
+  {
+    "adapter": "Delve",
+    "label": "Debug Compliant (Block)",
+    "request": "launch",
+    "mode": "debug",
+    "program": "main.go",
+    "cwd": "${ZED_WORKTREE_ROOT}",
+    "args": [
+      "scan",
+      "--policy",
+      "rules/k8s",
+      "--severity",
+      "block",
+      "manifests/compliant.yaml"
+    ],
+    "buildFlags": [],
+    "env": {}
+  },
+  {
+    "adapter": "Delve",
+    "label": "Debug Non-Compliant (All)",
+    "request": "launch",
+    "mode": "debug",
+    "program": "main.go",
+    "cwd": "${ZED_WORKTREE_ROOT}",
+    "args": [
+      "scan",
+      "--policy",
+      "rules/k8s",
+      "manifests/non-compliant.yaml"
+    ],
+    "buildFlags": [],
+    "env": {}
+  }
+]

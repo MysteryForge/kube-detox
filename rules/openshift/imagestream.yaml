@@ -1,0 +1,8 @@
+rules:
+  - id: os-is-001
+    name: "ImageStream Tagging"
+    description: "ImageStreams should specify importPolicy."
+    target: "ImageStream"
+    field: "spec.tags.0.importPolicy.scheduled"
+    expected: true
+    severity: "warn"
