@@ -1,0 +1,139 @@
+name: Build
+
+on:
+    workflow_dispatch:
+
+env:
+    RELEASE_TOKEN: ${{ secrets.RELEASES_ACTION_GITHUB_TOKEN }}
+    IMAGE_NAME: ghcr.io/${{ github.event.repository.full_name }}
+
+jobs:
+    lint:
+        name: Lint
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v6
+
+            - uses: actions/cache@v5
+              with:
+                  path: build/cache
+                  key: ${{ runner.os }}-build-tools-cache-${{ hashFiles('build/checksums.txt') }}
+
+            - uses: golangci/golangci-lint-action@v9
+              with:
+                  version: v2.12
+
+    test:
+        name: Test
+        runs-on: ubuntu-latest
+        needs: lint
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v6
+
+            - uses: actions/cache@v5
+              with:
+                  path: build/cache
+                  key: ${{ runner.os }}-build-tools-cache-${{ hashFiles('build/checksums.txt') }}
+
+            - name: Set up Go
+              uses: actions/setup-go@v6
+              with:
+                  go-version: 1.26
+                  cache: false
+
+            - name: Run tests
+              run: go test -short ./...
+
+    build_binary:
+        name: Build Binary
+        runs-on: ubuntu-latest
+        needs: test
+        strategy:
+            matrix:
+                include:
+                    - os: linux
+                      arch: amd64
+                      artifact: kube-detox-linux-amd64.tar.gz
+                    - os: linux
+                      arch: arm64
+                      artifact: kube-detox-linux-arm64.tar.gz
+                    - os: darwin
+                      arch: amd64
+                      artifact: kube-detox-darwin-amd64.tar.gz
+                    - os: darwin
+                      arch: arm64
+                      artifact: kube-detox-darwin-arm64.tar.gz
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v6
+
+            - name: Set up Go
+              uses: actions/setup-go@v6
+              with:
+                  go-version: 1.26
+                  cache: false
+
+            - name: Build
+              run: |
+                  mkdir -p bin
+                  go build -o bin/kube-detox .
+              env:
+                  GOOS: ${{ matrix.os }}
+                  GOARCH: ${{ matrix.arch }}
+
+            - name: Package
+              run: |
+                  # Make sure the binary exists
+                  ls -la bin/kube-detox
+
+                  # Create tar archive with verbose output
+                  tar -cvzf ${{ matrix.artifact }} -C bin kube-detox
+
+                  # Verify the archive
+                  file ${{ matrix.artifact }}
+                  tar -tvf ${{ matrix.artifact }}
+              env:
+                  GOOS: ${{ matrix.os }}
+                  GOARCH: ${{ matrix.arch }}
+
+            - name: Upload Artifact
+              uses: actions/upload-artifact@v7
+              with:
+                  name: ${{ matrix.artifact }}
+                  path: ${{ matrix.artifact }}
+
+    release:
+        name: Release
+        runs-on: ubuntu-latest
+        needs: build_binary
+        permissions:
+            contents: write
+        steps:
+            - name: Checkout repo
+              uses: actions/checkout@v6
+
+            - name: Download Artifacts
+              uses: actions/download-artifact@v8
+              with:
+                  path: ./artifacts
+
+            - name: List downloaded files
+              run: ls -R ./artifacts
+
+            - name: Get short SHA
+              id: sha
+              run: echo "short_sha=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+
+            - name: Upload to GitHub Release
+              uses: softprops/action-gh-release@v3
+              with:
+                  name: Release ${{ steps.sha.outputs.short_sha }}
+                  tag_name: sha-${{ steps.sha.outputs.short_sha }}
+                  draft: false
+                  prerelease: false
+                  files: |
+                      ./artifacts/**/*.tar.gz
+              env:
+                  GITHUB_TOKEN: ${{ env.RELEASE_TOKEN }}

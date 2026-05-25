@@ -1,0 +1,8 @@
+rules:
+  - id: rc-001
+    name: "No ReplicationController"
+    description: "ReplicationControllers are deprecated; use Deployments."
+    target: "ReplicationController"
+    field: "metadata.name"
+    expected: "not_null"
+    severity: "warn"

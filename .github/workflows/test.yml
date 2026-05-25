@@ -1,0 +1,36 @@
+name: Test
+
+on:
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
+    workflow_dispatch:
+    workflow_call:
+        inputs:
+            args:
+                required: false
+                type: string
+                description: "Additional arguments for the tests"
+                default: ""
+
+jobs:
+    test:
+        name: Test
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v6
+
+            - uses: actions/cache@v5
+              with:
+                  path: build/cache
+                  key: ${{ runner.os }}-build-tools-cache-${{ hashFiles('build/checksums.txt') }}
+
+            - name: Set up Go
+              uses: actions/setup-go@v6
+              with:
+                  go-version: 1.26
+                  cache: false
+
+            - name: Run tests
+              run: go test -short ./...

@@ -1,0 +1,7 @@
+rules:
+    - id: os-vsc-001
+      name: "VolumeSnapshotClass Driver"
+      description: "VolumeSnapshotClasses must specify a driver."
+      target: "VolumeSnapshotClass"
+      field: "driver"
+      expected: "not_null"

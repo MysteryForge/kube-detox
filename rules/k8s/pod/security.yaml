@@ -1,0 +1,8 @@
+rules:
+  - id: pod-001
+    name: "Disallow Default Namespace"
+    description: "Pods should not be in the default namespace."
+    target: "Pod"
+    field: "metadata.namespace"
+    expected_regex: "^(?!default).*$"
+    severity: "warn"

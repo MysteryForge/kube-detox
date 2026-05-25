@@ -1,0 +1,8 @@
+rules:
+  - id: rs-001
+    name: "ReplicaSet Min Replicas"
+    description: "Ensure at least 1 replica is defined."
+    target: "ReplicaSet"
+    field: "spec.replicas"
+    expected: 1
+    severity: "warn"

@@ -1,0 +1,14 @@
+rules:
+    - id: gov-001
+      name: "Require Owner Label"
+      description: "Resources must have an 'owner' label."
+      target: "Deployment"
+      field: "metadata.labels.owner"
+      expected: "exists"
+      severity: "warn"
+    - id: gov-002
+      name: "No Default Namespace"
+      description: "Never deploy to 'default'."
+      target: "Pod"
+      field: "metadata.namespace"
+      expected_regex: "^(?!default).*$"

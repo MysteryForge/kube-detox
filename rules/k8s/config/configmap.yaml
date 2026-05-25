@@ -1,0 +1,8 @@
+rules:
+  - id: cfg-001
+    name: "Immutable ConfigMaps"
+    description: "ConfigMaps should be immutable for predictability."
+    target: "ConfigMap"
+    field: "immutable"
+    expected: true
+    severity: "warn"

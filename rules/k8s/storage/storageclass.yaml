@@ -1,0 +1,8 @@
+rules:
+    - id: os-sc-002
+      name: "SC Volume Binding Mode"
+      description: "StorageClasses should use WaitForFirstConsumer for better scheduling."
+      target: "StorageClass"
+      field: "volumeBindingMode"
+      expected: "WaitForFirstConsumer"
+      severity: "warn"

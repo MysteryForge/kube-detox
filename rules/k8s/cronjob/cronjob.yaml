@@ -1,0 +1,8 @@
+rules:
+  - id: cj-001
+    name: "Failed Jobs Limit"
+    description: "Set successfulJobsHistoryLimit to prevent buildup."
+    target: "CronJob"
+    field: "spec.successfulJobsHistoryLimit"
+    expected: 3
+    severity: "warn"

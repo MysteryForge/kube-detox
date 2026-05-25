@@ -1,0 +1,8 @@
+rules:
+    - id: os-vs-001
+      name: "VolumeSnapshot Deletion Policy"
+      description: "VolumeSnapshots should use Delete policy."
+      target: "VolumeSnapshot"
+      field: "spec.deletionPolicy"
+      expected: "Delete"
+      severity: "warn"

@@ -1,0 +1,15 @@
+rules:
+    - id: rel-001
+      name: "Resource Requests"
+      description: "CPU/Memory requests are mandatory."
+      target: "Deployment"
+      field: "spec.template.spec.containers.0.resources.requests"
+      expected: "not_null"
+
+    - id: rel-002
+      name: "Liveness Probe"
+      description: "Health checks are required."
+      target: "Deployment"
+      field: "spec.template.spec.containers.0.livenessProbe"
+      expected: "exists"
+      severity: "warn"

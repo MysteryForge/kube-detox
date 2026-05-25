@@ -1,0 +1,15 @@
+rules:
+    - id: net-001
+      name: "Mandatory Network Policy"
+      description: "Every Pod must be restricted by a NetworkPolicy."
+      target: "NetworkPolicy"
+      field: "metadata.name"
+      expected: "exists"
+
+    - id: net-002
+      name: "Default Deny Ingress"
+      description: "NetworkPolicy must define a default deny ingress policy."
+      target: "NetworkPolicy"
+      field: "spec.policyTypes"
+      expected: "Ingress"
+      severity: "warn"

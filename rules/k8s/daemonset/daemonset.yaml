@@ -1,0 +1,14 @@
+rules:
+    - id: ds-001
+      name: "Rolling Update Strategy"
+      description: "DaemonSets should use RollingUpdate."
+      target: "DaemonSet"
+      field: "spec.updateStrategy.type"
+      expected: "RollingUpdate"
+
+    - id: ds-002
+      name: "DaemonSet HostPID"
+      description: "DaemonSets should avoid hostPID access."
+      target: "DaemonSet"
+      field: "spec.template.spec.hostPID"
+      expected: false

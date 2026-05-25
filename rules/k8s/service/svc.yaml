@@ -1,0 +1,15 @@
+rules:
+  - id: svc-001
+    name: "No LoadBalancer"
+    description: "Disallow public LoadBalancers without approval."
+    target: "Service"
+    field: "spec.type"
+    expected: "ClusterIP"
+    severity: "warn"
+  - id: svc-002
+    name: "Service Session Affinity"
+    description: "Services should avoid ClientIP session affinity unless required."
+    target: "Service"
+    field: "spec.sessionAffinity"
+    expected: "None"
+    severity: "warn"

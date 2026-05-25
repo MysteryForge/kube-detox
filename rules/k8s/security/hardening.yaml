@@ -1,0 +1,21 @@
+rules:
+    - id: sec-001
+      name: "Disallow Privileged"
+      description: "Containers must not be privileged."
+      target: "Deployment"
+      field: "spec.template.spec.containers.0.securityContext.privileged"
+      expected: false
+
+    - id: sec-002
+      name: "Drop Capabilities"
+      description: "Must drop ALL capabilities."
+      target: "Deployment"
+      field: "spec.template.spec.containers.0.securityContext.capabilities.drop"
+      expected: "ALL"
+
+    - id: sec-003
+      name: "ReadOnly Root"
+      description: "Filesystem must be read-only."
+      target: "Deployment"
+      field: "spec.template.spec.containers.0.securityContext.readOnlyRootFilesystem"
+      expected: true

@@ -1,0 +1,8 @@
+rules:
+    - id: rbac-001
+      name: "No Wildcard Roles"
+      description: "ClusterRoles should not allow wildcards in rules."
+      target: "ClusterRole"
+      field: "rules.0.resources"
+      expected: "*"
+      # Need "not_equals" support later, leaving as a placeholder for now

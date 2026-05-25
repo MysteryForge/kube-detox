@@ -1,0 +1,8 @@
+rules:
+    - id: os-pv-001
+      name: "PV Reclaim Policy"
+      description: "PersistentVolumes should not use 'Retain' to avoid orphan storage."
+      target: "PersistentVolume"
+      field: "spec.persistentVolumeReclaimPolicy"
+      expected: "Delete"
+      severity: "warn"

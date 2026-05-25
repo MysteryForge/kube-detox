@@ -1,0 +1,15 @@
+rules:
+    - id: hpa-001
+      name: "HPA Min Replicas"
+      description: "HPA must have a minimum replica count >= 1."
+      target: "HorizontalPodAutoscaler"
+      field: "spec.minReplicas"
+      expected: 1
+      severity: "warn"
+    - id: hpa-002
+      name: "HPA Max Replicas"
+      description: "Ensure HPA has a reasonable upper bound."
+      target: "HorizontalPodAutoscaler"
+      field: "spec.maxReplicas"
+      expected: 10
+      severity: "warn"

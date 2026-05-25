@@ -1,0 +1,7 @@
+rules:
+    - id: os-pvc-002
+      name: "PVC Access Modes"
+      description: "Ensure PVCs use explicit access modes."
+      target: "PersistentVolumeClaim"
+      field: "spec.accessModes"
+      expected: "not_null"

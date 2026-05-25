@@ -1,0 +1,7 @@
+rules:
+    - id: ing-001
+      name: "TLS Required"
+      description: "Ingress must have TLS configured."
+      target: "Ingress"
+      field: "spec.tls"
+      expected: "not_null"
